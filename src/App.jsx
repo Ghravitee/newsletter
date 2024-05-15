@@ -81,6 +81,7 @@ const navigate = useNavigate();
               <Field
               type="email"
               name="email"
+              placeholder="email@company.com"
               className={`email mt-1 block w-full ${
                 errors.email && touched.email ? 'formError1' : 'formSuccess'
               }`}
