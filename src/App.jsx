@@ -1,23 +1,17 @@
-// import logo from "./logo.svg";
 import desktopImage from "./illustration-sign-up-desktop.svg";
 import mobileImage from "./illustration-sign-up-mobile.svg";
 import iconList from "./icon-list.svg";
 import "./App.css";
-import { React } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { React, useState} from "react";
+import { Formik, ErrorMessage} from "formik";
 import { useNavigate } from "react-router-dom";
-// import Success from "./pages/success/Success"
 
 function App() {
+  let [email, setEmail] = useState("");
 
-
-  
-const navigate = useNavigate();
-  const handleSubmit = () => {
-    // Perform form submission logic here
-    navigate("/success");
-
-  };
+  const navigate = useNavigate();
+ 
+ 
   return (
     <div className="App">
       <div className="image-container">
@@ -47,7 +41,7 @@ const navigate = useNavigate();
             <p>And much more!</p>
           </div>
         </div>
-      
+
         <Formik
           initialValues={{ email: "" }}
           validate={(values) => {
@@ -63,39 +57,46 @@ const navigate = useNavigate();
           }}
           onSubmit={(values) => {
             console.log('Form Values:', values);
-           
-            handleSubmit();
+
+            navigate("/success", { state: { email: values.email } });
           }}
         >
-
-          {({ errors, touched, values }) => (
-
-               <Form className="form">
+          {({
+            errors,
+            touched,
+            values,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+            isSubmitting,
+          }) => (
+            <form className="form" onSubmit={handleSubmit}>
               <div className="form-label">
-              
-                  <p className="label">Email address</p>
-                  <ErrorMessage name="email" component="div" className="formError"/>
-              
+                <p className="label">Email address</p>
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className="formError"
+                />
               </div>
 
-              <Field
-              type="email"
-              name="email"
-              placeholder="email@company.com"
-              className={`email mt-1 block w-full ${
-                errors.email && touched.email ? 'formError1' : 'formSuccess'
-              }`}
-            />
+              <input
+                name="email"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.email}
+                type="email"
+                placeholder="email@company.com"
+                className={`email mt-1 block w-full ${
+                  errors.email && touched.email ? "formError1" : "formSuccess"
+                }`}
+              />
 
-              <button className="btn" type="submit">
+              <button className="btn" type="submit" disabled={isSubmitting}>
                 Subscribe to monthly newsletter
               </button>
-              {/* <Success email={values.email} /> */}
-            </Form> 
-      )}
-        
-          
-      
+            </form>
+          )}
         </Formik>
       </div>
     </div>
