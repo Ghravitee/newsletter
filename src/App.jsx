@@ -13,7 +13,7 @@ function App() {
  
  
   return (
-    <div className="App">
+    <main className="App">
       <div className="image-container">
         <picture class="first-container">
           <source
@@ -99,7 +99,7 @@ function App() {
           )}
         </Formik>
       </div>
-    </div>
+    </main>
   );
 }
 
